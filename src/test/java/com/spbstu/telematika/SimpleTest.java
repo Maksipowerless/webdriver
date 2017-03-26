@@ -19,58 +19,54 @@ import java.util.stream.Collectors;
  */
 public class SimpleTest extends BaseTest {
 
-
-
     @DataProvider
-    public Object[][] data() {
+    public Object[][] dataIssue(){
         return new Object[][]{
-                {"spbstu", Arrays.asList(
-                        "https://vk.com/pgpuspb1",
-                        "www.spbstu.ru/",
-                        "https://openedu.ru/course/spbstu/PRBIM/"
+                {Arrays.asList(
+                        "summary",
+                        "description",
+                        "steps_to_reproduce",
+                        "additional_info",
+                        "tag_string"
                 ),
-                },
-                {"ifmo", Arrays.asList(
-                        "www.ifmo.ru/",
-                        "https://vk.com/ifmo.online",
-                        "https://vk.com/abit.itmo1"
+                Arrays.asList(
+                        "test summary",
+                        "test description",
+                        "test steps to reproduce",
+                        "test additional info",
+                        "test tag"
+                ),},
+
+                {Arrays.asList(
+                        "summary",
+                        "description",
+                        "steps_to_reproduce",
+                        "additional_info",
+                        "tag_string"
                 ),
-                }
-
-
+                        Arrays.asList(
+                                "test summary part2",
+                                "test description part2",
+                                "test steps to reproduce part2",
+                                "test additional info part2",
+                                "test tag part2"
+                        ),}
         };
     }
 
-
-    @Test(dataProvider = "data", dataProviderClass = SimpleTest.class)
-    public void test1(String searchString, List<String> expected) {
-        driver.navigate().to("http://www.google.com");
-        WebElement element = driver.findElement(By.id("lst-ib"));
-        element.sendKeys(searchString + Keys.ENTER);
-        List<String> actual = driver.findElements(By.xpath("//*[@id='res']//div[@class='g']//cite"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-
-        expected.forEach((e) -> softAssert.assertTrue(actual.stream().anyMatch(ee -> ee.contains(e)), String.format("Element: %s is missing",e)));
-        //  Assert.assertTrue(elements.stream().anyMatch(e -> e.getText().contains(expected)));
-        softAssert.assertAll();
-    }
-
-   @Test
-    public void testForMantisReportIssue()
+   @Test(dataProvider="dataIssue", dataProviderClass = SimpleTest.class)
+    public void testForMantisReportIssue(List<String> listXPath, List<String> listExepted)
    {
-       String expected = "test summary";
-       //заполнение задачи
-      driver.findElement(By.xpath("//*[@class='btn btn-primary btn-sm']")).click();
-      driver.findElement(By.id("summary")).sendKeys(expected);
-      driver.findElement(By.id("description")).sendKeys("test description");
-      driver.findElement(By.id("steps_to_reproduce")).sendKeys("test steps to reproduce");
-      driver.findElement(By.id("additional_info")).sendKeys("test additional info");driver.findElement(By.id("tag_string")).sendKeys("test tag");
-      driver.findElement(By.xpath("//input[@class='btn btn-primary btn-white btn-round']")).click();
+       //заполнение задачи(сделал по старинке через for, не знаю как сделать с помощью forEach и l-выражения
+       driver.findElement(By.xpath("//*[@class='btn btn-primary btn-sm']")).click();
+       for(int i=0; i< listXPath.size(); i++)
+       {
+         driver.findElement(By.id(listXPath.get(i))).sendKeys(listExepted.get(i));
+       }
 
+       driver.findElement(By.xpath("//input[@class='btn btn-primary btn-white btn-round']")).click();
        //проверка добавления задачи (через поле summary)
-       softAssert.assertTrue(driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[1]/td[11]")).getText().equals(expected));
-       
+       softAssert.assertTrue(driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[1]/td[11]")).getText().equals(listExepted.get(0)));
+       softAssert.assertAll();
    }
 }

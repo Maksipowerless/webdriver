@@ -42,13 +42,17 @@ public class BaseTest {
         driver.findElement(By.xpath("//input[@type='submit']")).click();
     }
 
-    @AfterSuite
-    public void afterSute(){
+    @AfterMethod
+    public void afterTest(){
         //удаление добавленной задачи
         driver.findElement(By.xpath(("//table[@id='buglist']/tbody/tr[1]/td[1]//span[@class='lbl']"))).click();
         driver.findElement(By.xpath("//select[@name='action']//option[@value='DELETE']")).click();
         driver.findElement(By.xpath("//input[@value='OK']")).click();
         driver.findElement(By.xpath("//input[@value='Delete Issues']")).click();
+    }
+
+    @AfterSuite
+    public void afterSute() {
         driver.close();
     }
 
