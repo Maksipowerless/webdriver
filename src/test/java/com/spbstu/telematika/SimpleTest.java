@@ -57,9 +57,20 @@ public class SimpleTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(groups = "regression")
-    public void test2() {
+   @Test
+    public void testForMantisReportIssue()
+   {
+       String expected = "test summary";
+       //заполнение задачи
+      driver.findElement(By.xpath("//*[@class='btn btn-primary btn-sm']")).click();
+      driver.findElement(By.id("summary")).sendKeys(expected);
+      driver.findElement(By.id("description")).sendKeys("test description");
+      driver.findElement(By.id("steps_to_reproduce")).sendKeys("test steps to reproduce");
+      driver.findElement(By.id("additional_info")).sendKeys("test additional info");driver.findElement(By.id("tag_string")).sendKeys("test tag");
+      driver.findElement(By.xpath("//input[@class='btn btn-primary btn-white btn-round']")).click();
 
-    }
-
+       //проверка добавления задачи (через поле summary)
+       softAssert.assertTrue(driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[1]/td[11]")).getText().equals(expected));
+       
+   }
 }

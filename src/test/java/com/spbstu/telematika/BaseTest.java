@@ -1,6 +1,9 @@
 package com.spbstu.telematika;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
@@ -17,43 +20,36 @@ import java.util.concurrent.TimeUnit;
 public class BaseTest {
 
     WebDriver driver;
-
     SoftAssert softAssert;
-
-    @BeforeMethod
-    public void BeforeMethod(Method method){
-        System.out.println(String.format("Before method: %s", method.getName()));
-        }
-
-
-    @AfterMethod
-    public void AfterMethod(ITestResult testResult){
-        System.out.println(String.format("After method: %s, status : %s ", testResult.getName(), testResult.getStatus() ));
-    }
-
-
 
     @BeforeSuite
     public void beforeSuite() {
+
+        //настройка веб драйвера
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         softAssert = new SoftAssert();
+
+        String stringUsername = "administrator";
+        String stringPassword = "21750";
+
+        //ввод логина и пароля
+        driver.navigate().to("http://localhost/mantisbt/login_page.php");
+        driver.findElement(By.id("username")).sendKeys(stringUsername);
+        driver.findElement(By.id("password")).sendKeys(stringPassword );
+        driver.findElement(By.xpath("//input[@type='submit']")).click();
     }
 
     @AfterSuite
     public void afterSute(){
+        //удаление добавленной задачи
+        driver.findElement(By.xpath(("//table[@id='buglist']/tbody/tr[1]/td[1]//span[@class='lbl']"))).click();
+        driver.findElement(By.xpath("//select[@name='action']//option[@value='DELETE']")).click();
+        driver.findElement(By.xpath("//input[@value='OK']")).click();
+        driver.findElement(By.xpath("//input[@value='Delete Issues']")).click();
         driver.close();
     }
 
-    @BeforeGroups
-    public void beforeGroup(){
-        System.out.println("before group");
-    }
-
-    @AfterGroups
-    public void afterGroup(){
-        System.out.println("after group");
-    }
 }
