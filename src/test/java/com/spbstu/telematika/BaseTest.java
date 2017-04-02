@@ -58,7 +58,8 @@ public class BaseTest {
         for(int i=0; i<checkedFields.size(); i++ ) {
             if(checkedFields.get(i).equals(actualField))
             {
-                driver.findElement(By.xpath(("//table[@id='buglist']/tbody/tr['$i']/td[1]//span[@class='lbl']"))).click();
+                i++;
+                driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[" + i + "]/td[1]//span[@class='lbl']")).click();
                 driver.findElement(By.xpath("//select[@name='action']//option[@value='DELETE']")).click();
                 driver.findElement(By.xpath("//input[@value='OK']")).click();
                 driver.findElement(By.xpath("//input[@value='Delete Issues']")).click();

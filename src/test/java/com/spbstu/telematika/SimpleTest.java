@@ -30,7 +30,7 @@ public class SimpleTest extends BaseTest {
                         "tag_string"
                 ),
                         Arrays.asList(
-                                "test summary",
+                                "test summary part1",
                                 "test description",
                                 "test steps to reproduce",
                                 "test additional info",
