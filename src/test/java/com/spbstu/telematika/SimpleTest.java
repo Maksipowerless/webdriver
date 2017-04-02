@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class SimpleTest extends BaseTest {
 
     @DataProvider
-    public Object[][] dataIssue(){
+    public Object[][] dataIssue() {
         return new Object[][]{
                 {Arrays.asList(
                         "summary",
@@ -29,13 +29,13 @@ public class SimpleTest extends BaseTest {
                         "additional_info",
                         "tag_string"
                 ),
-                Arrays.asList(
-                        "test summary",
-                        "test description",
-                        "test steps to reproduce",
-                        "test additional info",
-                        "test tag"
-                ),},
+                        Arrays.asList(
+                                "test summary",
+                                "test description",
+                                "test steps to reproduce",
+                                "test additional info",
+                                "test tag"
+                        ),},
 
                 {Arrays.asList(
                         "summary",
@@ -54,19 +54,23 @@ public class SimpleTest extends BaseTest {
         };
     }
 
-   @Test(dataProvider="dataIssue", dataProviderClass = SimpleTest.class)
-    public void testForMantisReportIssue(List<String> listXPath, List<String> listExepted)
-   {
-       //заполнение задачи(сделал по старинке через for, не знаю как сделать с помощью forEach и l-выражения
-       driver.findElement(By.xpath("//*[@class='btn btn-primary btn-sm']")).click();
-       for(int i=0; i< listXPath.size(); i++)
-       {
-         driver.findElement(By.id(listXPath.get(i))).sendKeys(listExepted.get(i));
-       }
+    @Test(dataProvider = "dataIssue", dataProviderClass = SimpleTest.class)
+    public void testForMantisReportIssue(List<String> listXPath, List<String> listExepted) {
+        actualField = listExepted.get(0);
+        //заполнение задачи(сделал по старинке через for, не знаю как сделать с помощью forEach и l-выражения
+        driver.findElement(By.xpath("//*[@class='btn btn-primary btn-sm']")).click();
+        for (int i = 0; i < listXPath.size(); i++) {
+            driver.findElement(By.id(listXPath.get(i))).sendKeys(listExepted.get(i));
+        }
 
-       driver.findElement(By.xpath("//input[@class='btn btn-primary btn-white btn-round']")).click();
-       //проверка добавления задачи (через поле summary)
-       softAssert.assertTrue(driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[1]/td[11]")).getText().equals(listExepted.get(0)));
-       softAssert.assertAll();
-   }
+        driver.findElement(By.xpath("//input[@class='btn btn-primary btn-white btn-round']")).click();
+        //проверка добавления задачи (через поле summary)
+        List<String> checkedFields = driver.findElements(By.xpath("//table[@id='buglist']/tbody/tr[*]/td[11]"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
+        softAssert.assertTrue(checkedFields.stream().anyMatch(e -> e.contains(actualField)));
+        softAssert.assertAll();
+    }
 }
