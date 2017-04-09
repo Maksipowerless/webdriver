@@ -1,5 +1,7 @@
 package com.spbstu.telematika;
 
+import com.spbstu.telematika.factoryPageObjects.FactoryPageobjectsContactFormPage;
+import com.spbstu.telematika.factoryPageObjects.FactoryPageobjectsIssuePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
