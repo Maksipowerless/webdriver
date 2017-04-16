@@ -1,5 +1,6 @@
 package com.spbstu.telematika.factoryPageObjects;
 
+import com.spbstu.telematika.factoryPageObjects.entities.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +20,9 @@ public class FactoryPageobjectsContactFormPage {
    @FindBy(css = "[type = 'submit']")
     WebElement buttonSubmit;
 
-   public void fillLoginPasswordForm(String login, String password){
-       this.username.sendKeys(login);
-       this.password.sendKeys(password);
+   public void fillLoginPasswordForm(User user){
+       this.username.sendKeys(user.getLogin());
+       this.password.sendKeys(user.getPassword());
    }
 
     public void submitContactForm() {

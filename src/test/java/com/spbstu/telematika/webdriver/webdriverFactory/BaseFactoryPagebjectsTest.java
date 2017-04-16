@@ -1,5 +1,7 @@
-package com.spbstu.telematika;
+package com.spbstu.telematika.webdriver.webdriverFactory;
 
+import com.spbstu.telematika.MantisSite;
+import com.spbstu.telematika.helper.ResourseLoaderSTU;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,9 +22,6 @@ public class BaseFactoryPagebjectsTest {
 
     WebDriver driver;
     SoftAssert softAssert;
-
-    String login = "administrator";
-    String password = "21750";
     String actualField;
 
     @BeforeSuite
@@ -35,13 +34,7 @@ public class BaseFactoryPagebjectsTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         MantisSite.init(driver);
         softAssert = new SoftAssert();
-
-        //авторизация
-        MantisSite.open();
-        MantisSite.contactFormPage.fillLoginPasswordForm(login, password);
-        MantisSite.contactFormPage.submitContactForm();
     }
-
 
     @AfterSuite
     public void afterSute() {
@@ -50,21 +43,20 @@ public class BaseFactoryPagebjectsTest {
 
     @AfterMethod
     public void afterMethod() {
-        //удаление добавленной задачи
-        List<String> checkedFields = driver.findElements(By.xpath("//table[@id='buglist']/tbody/tr[*]/td[11]"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
 
-        //делаю через for, потому что не знаю как сделать с помощью l-выражений и foreach
-        for(int i=0; i<checkedFields.size(); i++ ) {
-            if(checkedFields.get(i).equals(actualField))
-            {
-                i++;
-                driver.findElement(By.xpath("//table[@id='buglist']/tbody/tr[" + i + "]/td[1]//span[@class='lbl']")).click();
-                MantisSite.issuePage.deleteIssues();
-                break;
-            }
-        }
+        //авторизация admin
+        MantisSite.contactFormPage.fillLoginPasswordForm(ResourseLoaderSTU.getUser("admin"));
+        MantisSite.contactFormPage.submitContactForm();
+        MantisSite.issuePage.openViewIssuePage();
+
+        List<WebElement> allIssues = driver.findElements(By.xpath("//table[@id='buglist']/tbody/tr[*]/td[11]"));
+
+        allIssues.stream()
+                .filter(issue -> issue.getText().equals(actualField))
+                .findFirst().get()
+                .findElement(By.xpath("//*/td[1]//span[@class='lbl']"))
+                .click();
+
+        MantisSite.issuePage.deleteIssues();
     }
 }

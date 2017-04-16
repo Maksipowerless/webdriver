@@ -1,18 +1,15 @@
-package com.spbstu.telematika;
+package com.spbstu.telematika.webdriver;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 //shift f6 - переименовать
+//ctr+alt+m - создать метод
 
 /**
  * Created by maxfromperek on 14.03.17.

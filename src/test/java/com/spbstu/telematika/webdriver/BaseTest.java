@@ -1,4 +1,4 @@
-package com.spbstu.telematika;
+package com.spbstu.telematika.webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
