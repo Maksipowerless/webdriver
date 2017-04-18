@@ -22,7 +22,6 @@ public class BaseFactoryPagebjectsTest {
 
     WebDriver driver;
     SoftAssert softAssert;
-    String actualField;
 
     @BeforeSuite
     public void beforeSuite() {
@@ -44,19 +43,14 @@ public class BaseFactoryPagebjectsTest {
     @AfterMethod
     public void afterMethod() {
 
-        //авторизация admin
+        //выход user
+        MantisSite.issuePage.logout();
+
+        //вход admin
         MantisSite.contactFormPage.fillLoginPasswordForm(ResourseLoaderSTU.getUser("admin"));
         MantisSite.contactFormPage.submitContactForm();
         MantisSite.issuePage.openViewIssuePage();
-
-        List<WebElement> allIssues = driver.findElements(By.xpath("//table[@id='buglist']/tbody/tr[*]/td[11]"));
-
-        allIssues.stream()
-                .filter(issue -> issue.getText().equals(actualField))
-                .findFirst().get()
-                .findElement(By.xpath("//*/td[1]//span[@class='lbl']"))
-                .click();
-
+        MantisSite.issuePage.ckeckRow(ResourseLoaderSTU.getFieldData("issuetest").getSummary());
         MantisSite.issuePage.deleteIssues();
     }
 }

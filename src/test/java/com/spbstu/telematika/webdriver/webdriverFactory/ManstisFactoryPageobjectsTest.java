@@ -39,17 +39,8 @@ public class ManstisFactoryPageobjectsTest extends BaseFactoryPagebjectsTest {
         //проверка задачи
         MantisSite.issuePage.openViewIssuePage();
 
-        // TODO
-        List<String> checkedFields = driver.findElements(By.xpath("//table[@id='buglist']/tbody/tr[*]/td[11]"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-
-        actualField = ResourseLoaderSTU.getFieldData("issuetest").getSummary();
-        softAssert.assertTrue(checkedFields.stream().anyMatch(e -> e.contains(actualField)));
-
-        //выход user
-        MantisSite.issuePage.logout();
+        softAssert.assertTrue(MantisSite.issuePage.isDeleteRowSummary(ResourseLoaderSTU.
+                getFieldData("issuetest").getSummary()));
         softAssert.assertAll();
     }
 }

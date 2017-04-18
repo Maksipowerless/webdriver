@@ -11,19 +11,19 @@ import org.openqa.selenium.support.FindBy;
  */
 public class FactoryPageobjectsContactFormPage {
 
-   @FindBy(id = "username" )
+    @FindBy(id = "username")
     WebElement username;
 
-   @FindBy(id = "password")
+    @FindBy(id = "password")
     WebElement password;
 
-   @FindBy(css = "[type = 'submit']")
+    @FindBy(css = "[type = 'submit']")
     WebElement buttonSubmit;
 
-   public void fillLoginPasswordForm(User user){
-       this.username.sendKeys(user.getLogin());
-       this.password.sendKeys(user.getPassword());
-   }
+    public void fillLoginPasswordForm(User user) {
+        this.username.sendKeys(user.getLogin());
+        this.password.sendKeys(user.getPassword());
+    }
 
     public void submitContactForm() {
         this.buttonSubmit.click();

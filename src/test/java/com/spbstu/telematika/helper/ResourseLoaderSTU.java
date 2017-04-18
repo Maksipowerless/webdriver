@@ -44,13 +44,15 @@ public class ResourseLoaderSTU {
 
     private static void loadUsers() throws IOException {
         String rawData = getRawData(DATA_USER_JSON);
-        Type type = new TypeToken<Map<String, User>>() {}.getType();
+        Type type = new TypeToken<Map<String, User>>() {
+        }.getType();
         users = new Gson().fromJson(rawData, type);
     }
 
     private static void loadFieldData() throws IOException {
         String rawData = getRawData(DATA_FIELD_JSON);
-        Type type = new TypeToken<Map<String, FieldData>>() {}.getType();
+        Type type = new TypeToken<Map<String, FieldData>>() {
+        }.getType();
         fieldData = new Gson().fromJson(rawData, type);
     }
 
@@ -64,6 +66,7 @@ public class ResourseLoaderSTU {
     }
 
     public static FieldData getFieldData(String key) {
-        return fieldData.get(key); }
+        return fieldData.get(key);
+    }
 
 }
