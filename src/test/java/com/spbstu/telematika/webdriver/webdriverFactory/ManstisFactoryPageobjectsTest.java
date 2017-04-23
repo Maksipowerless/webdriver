@@ -39,7 +39,7 @@ public class ManstisFactoryPageobjectsTest extends BaseFactoryPagebjectsTest {
         //проверка задачи
         MantisSite.issuePage.openViewIssuePage();
 
-        softAssert.assertTrue(MantisSite.issuePage.isDeleteRowSummary(ResourseLoaderSTU.
+        softAssert.assertTrue(MantisSite.issuePage.isExistRowSummary(ResourseLoaderSTU.
                 getFieldData("issuetest").getSummary()));
         softAssert.assertAll();
     }

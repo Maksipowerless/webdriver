@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FieldData {
+
     String summary;
     String description;
     String steptoreproduce;

@@ -89,7 +89,7 @@ public class FactoryPageobjectsIssuePage {
         this.buttonViewIssue.click();
     }
 
-    public boolean isDeleteRowSummary(String str) {
+    public boolean isExistRowSummary(String str) {
 
         List<String> checkedFields = listRowsSummary.stream()
                 .map(WebElement::getText)

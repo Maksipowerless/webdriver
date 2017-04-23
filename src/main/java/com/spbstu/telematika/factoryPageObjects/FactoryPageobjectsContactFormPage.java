@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Map;
+
 /**
  * Created by maxfromperek on 04.04.17.
  */
@@ -23,6 +25,11 @@ public class FactoryPageobjectsContactFormPage {
     public void fillLoginPasswordForm(User user) {
         this.username.sendKeys(user.getLogin());
         this.password.sendKeys(user.getPassword());
+    }
+
+    public void fillLoginPasswordForm(Map<String, String> data) {
+        this.username.sendKeys(data.get("login"));
+        this.password.sendKeys(data.get("password"));
     }
 
     public void submitContactForm() {
